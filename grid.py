@@ -15,8 +15,14 @@ class Grid:
         for i in range(self.resolution[0]):
             for j in range(self.resolution[1]):
                 if self.p_grid[j][i] == 1:
-                    color = (255, 255, 255)
-                    pygame.draw.rect(self.surface, color, tuple([i * self.p_size for i in [i, j, 1, 1]]))
+                    p_color = (255, 255, 255)
+                elif self.p_grid[j][i] == 2:
+                    p_color = (0, 255, 0)
+                elif self.p_grid[j][i] == 3:
+                    p_color = (255, 0, 0)
+                else:
+                    p_color = (0,0,0)
+                pygame.draw.rect(self.surface, p_color, tuple([i * self.p_size for i in [i, j, 0.8, 0.8]]))
     
     def set_pixel(self, x, y, val:int):
         print(self.p_grid)
