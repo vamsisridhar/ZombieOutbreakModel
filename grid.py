@@ -69,6 +69,7 @@ class Grid:
                 3 - zombie
 
                 """
+                
                 if self.p_grid[j][i] == 0:
                     pass
 
@@ -76,9 +77,19 @@ class Grid:
                     pass
 
                 elif self.p_grid[j][i] == 2:
-                    pass
-
+                    r_move = np.array([0,0])
+                    for z in zombies:
+                        dx = z[1] - i
+                        dy = z[0] - j
+                        mag = (dx**2 + dy**2)**(1/2)
+                        unit = (1/mag)*np.array([dx, dy])
+                        r_move += unit
+                    r_move_mag  = (r_move[0]**2 + r_move[1]**2)**(1/2)
+                    r_unit = (1/r_move_mag)*r_move
+                    
                 elif self.p_grid[j][i] == 3:
+                    pass
+                else:
                     pass
 
         
