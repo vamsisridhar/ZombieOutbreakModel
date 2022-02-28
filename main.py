@@ -94,6 +94,7 @@ while True:
 
             m_grid.set_pixel(g_pos[0], g_pos[1], mouse_b - 1)
             """
+            pass
         elif scene == 0:
             clicked = start.check_bounds(m_pos)
             if clicked == "start":
