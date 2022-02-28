@@ -58,7 +58,7 @@ for line in data:
 f.close()
 map = np.vstack(map)
 
-print(map.shape)
+#print(map.shape)
 
 for y in range(map.shape[0]):
     for x in range(map.shape[1]):
@@ -100,7 +100,7 @@ while True:
             if clicked == "start":
                 scene = 1
     if anim:
-        fps = 200
+        fps = 1
 
         m_grid.update()
        

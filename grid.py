@@ -25,7 +25,7 @@ class Grid:
                 pygame.draw.rect(self.surface, p_color, tuple([i * self.p_size for i in [i, j, 0.8, 0.8]]))
     
     def set_pixel(self, x, y, val:int):
-        print(self.p_grid)
+        #print(self.p_grid)
         self.p_grid[y, x] = val
 
     def draw_object(self, name, x, y):
@@ -53,6 +53,13 @@ class Grid:
                                 if self.p_grid[y][x]:
                                     n_count += 1
 
+                walls = np.where(self.p_grid == 1)
+                people = np.where(self.p_grid == 2)
+                zombies = np.where(self.p_grid == 3)
+
+                print(f"Walls: {walls}")
+                print(f"People: {people}")
+                print(f"Zombies: {zombies}")
 
                 """
                 
@@ -70,6 +77,7 @@ class Grid:
 
                 elif self.p_grid[j][i] == 2:
                     pass
+
                 elif self.p_grid[j][i] == 3:
                     pass
 
