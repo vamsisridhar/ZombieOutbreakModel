@@ -62,6 +62,11 @@ class Grid:
                 3 - zombie
 
                 """
+
+                #coordinate array
+                wall = []
+                people = []
+                zombies = []
                 if self.p_grid[j][i] == 0:
                     pass
 
@@ -69,8 +74,16 @@ class Grid:
                     pass
 
                 elif self.p_grid[j][i] == 2:
-                    pass
+                    
+                    for z in zombies:
+                        dx = z[1] - i
+                        dy = z[0] - j
+                        mag = (dx**2 + dy**2)**(1/2)
+                        unit = (1/mag)*np.array([dx, dy])
+
                 elif self.p_grid[j][i] == 3:
+                    pass
+                else:
                     pass
 
         
