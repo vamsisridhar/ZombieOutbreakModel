@@ -50,7 +50,7 @@ map = []
 
 map = pd.read_csv('map.csv', delimiter=',', dtype=np.uint64).values
 print(map)
-m_grid = Grid(size, int(np .min([w_HEIGHT/map.shape[0], w_WIDTH/map.shape[1]])))
+m_grid = Grid(size, int(np.min([w_HEIGHT/map.shape[0], w_WIDTH/map.shape[1]])))
 #print(map.shape)
 
 for y in range(map.shape[0]):

@@ -121,21 +121,17 @@ class Grid:
                     pref_dots = pref_dir_df["dots"].values
 
                     for k in range(1, len(pref_dots)):
-                        print(k)
                         pref_dir_vec = pref_dirs[-k]
-                        print(round(pref_dir_vec[0]), round(pref_dir_vec[1]))
                         if (self.s_grid[j - round(pref_dir_vec[1])][i+ round(pref_dir_vec[0])] == 0) and (self.p_grid[j - round(pref_dir_vec[1])][i+ round(pref_dir_vec[0])] == 0):
-                            print(self.s_grid[j - round(pref_dir_vec[1])][i+ round(pref_dir_vec[0])])
+
 
                             self.s_grid[j - round(pref_dir_vec[1])][i+ round(pref_dir_vec[0])] = 2
                             #self.s_grid[j][i] = 0
                             break
                         else:
-                            print("NO CASE FOUND")
-                            print(self.s_grid[j - round(pref_dir_vec[1])][i+ round(pref_dir_vec[0])])
+                            print("No CASE")
                             if k == len(pref_dots) - 1:
                                 self.s_grid[j][i] = 2
-                                self.p_grid[j][i] = 2
 
 
                 elif self.p_grid[j][i] == 3:
@@ -161,19 +157,12 @@ class Grid:
 
                     for k in range(1, len(pref_dots)):
                         pref_dir_vec = pref_dirs[-k]
-                        print(round(pref_dir_vec[0]), round(pref_dir_vec[1]))
-                        if self.s_grid[j - round(pref_dir_vec[1])][i+ round(pref_dir_vec[0])] == 0:
-                            print(pref_dir_vec)
-                            print(pref_dots)
-                            print(pref_dirs)
-                            print(self.s_grid[j - round(pref_dir_vec[1])][i+ round(pref_dir_vec[0])])
+                        if (self.s_grid[j - round(pref_dir_vec[1])][i+ round(pref_dir_vec[0])] == 0) and (self.p_grid[j - round(pref_dir_vec[1])][i+ round(pref_dir_vec[0])] == 0):
 
                             self.s_grid[j - round(pref_dir_vec[1])][i+ round(pref_dir_vec[0])] = 3
                             #self.s_grid[j][i] = 0
                             break
                         else:
-                            print("NO CASE FOUND")
-                            print(self.s_grid[j - round(pref_dir_vec[1])][i+ round(pref_dir_vec[0])])
                             if k == len(pref_dots) - 1:
                                 self.s_grid[j][i] = 3
                 else:
