@@ -1,5 +1,6 @@
 import pygame, sys
 import numpy as np
+import pandas as pd
 class Grid:
     shapes={}
     a_dir = np.array([[1,0], [-1,0],
@@ -40,11 +41,13 @@ class Grid:
         
 
         dots = []
-
+        ref_dirs = []
         for dir in self.a_dir:
             dots.append(np.dot(np.array(dir), np.array(u_dir)))
+            ref_dirs.append(dir)
 
-        return np.array(dots)    
+        dir_df = pd.DataFrame({"dots": dots, "dirs": ref_dirs})
+        return dir_df.sort_values("dots")    
 
 
         
@@ -99,81 +102,80 @@ class Grid:
 
                 elif self.p_grid[j][i] == 2:
                     r_move = np.array([0,0], dtype= np.float64)
+                    pos = [i, -j]
+                    print("PERSON")
                     for z in zombies:
-                        dx = - z[0] + i
-                        dy = - z[1] + j
+                        # i is correct dir
+                        # j is opposite dir
+                        
+                        dx = z[0] - pos[0]
+                        dy = - z[1] - pos[1]
+
                         
                         unit = np.array([dx, dy])
                         r_move += unit
                     r_move_mag  = (r_move[0]**2 + r_move[1]**2)**(1/2)
                     r_unit = (1/r_move_mag)*r_move
-                    
-                    moves = self.movement(r_unit)
-                    moves_ordered = np.sort(moves)
-                    print(moves_ordered)
-                    #r_pref_move = np.round(self.a_dir[moves.argmax()])
+                    pref_dir_df = self.movement( np.array([-r_unit[0], -r_unit[1]]))
+                    pref_dirs = pref_dir_df["dirs"].values
+                    pref_dots = pref_dir_df["dots"].values
 
+                    for k in range(1, len(pref_dots)):
+                        print(k)
+                        pref_dir_vec = pref_dirs[-k]
+                        print(round(pref_dir_vec[0]), round(pref_dir_vec[1]))
+                        if (self.s_grid[j - round(pref_dir_vec[1])][i+ round(pref_dir_vec[0])] == 0) and (self.p_grid[j - round(pref_dir_vec[1])][i+ round(pref_dir_vec[0])] == 0):
+                            print(self.s_grid[j - round(pref_dir_vec[1])][i+ round(pref_dir_vec[0])])
 
-                    for k in range(len(moves_ordered)):
-
-                        r_pref_move = np.round(self.a_dir[np.where(moves == moves_ordered[-1-k])[0][0]])
-                        print(int(self.p_grid[j+int(r_pref_move[1])][i+int(r_pref_move[0])]))
-                        if int(self.p_grid[j+int(r_pref_move[1])][i+int(r_pref_move[0])]) == 0:
-                            print(r_pref_move)
-                            print("Case 3")
-                            ##print(self.p_grid[j+int(r_pref_move[1])][i+int(r_pref_move[0])])
+                            self.s_grid[j - round(pref_dir_vec[1])][i+ round(pref_dir_vec[0])] = 2
+                            #self.s_grid[j][i] = 0
                             break
                         else:
-                            print("Case 2")
-                            if k == len(moves_ordered):
-                                r_pref_move = [0,0]
-                                break
-                            else:
-                            
-                            
-                                print("CASE 1")
-                                continue
-                            continue
-                    print("Case 4")
-                    
+                            print("NO CASE FOUND")
+                            print(self.s_grid[j - round(pref_dir_vec[1])][i+ round(pref_dir_vec[0])])
+                            if k == len(pref_dots) - 1:
+                                self.s_grid[j][i] = 2
+                                self.p_grid[j][i] = 2
 
-                    self.s_grid[j+int(r_pref_move[1])][i+int(r_pref_move[0])] = 2
 
                 elif self.p_grid[j][i] == 3:
                     r_move = np.array([0,0], dtype= np.float64)
+                    pos = [i, -j]
+                    print("ZOMBIE")
                     for z in people:
-                        dx =  z[0] - i
-                        dy =  z[1] - j
+                        
+                        # i is correct dir
+                        # j is opposite dir
+                        
+                        dx = z[0] - pos[0]
+                        dy = - z[1] - pos[1]
+
                         
                         unit = np.array([dx, dy])
                         r_move += unit
                     r_move_mag  = (r_move[0]**2 + r_move[1]**2)**(1/2)
                     r_unit = (1/r_move_mag)*r_move
-                    
-                    moves = self.movement(r_unit)
-                    moves_ordered = np.sort(moves)
-                    #r_pref_move = np.round(self.a_dir[moves.argmax()])
+                    pref_dir_df = self.movement( np.array([r_unit[0], r_unit[1]]))
+                    pref_dirs = pref_dir_df["dirs"].values
+                    pref_dots = pref_dir_df["dots"].values
 
+                    for k in range(1, len(pref_dots)):
+                        pref_dir_vec = pref_dirs[-k]
+                        print(round(pref_dir_vec[0]), round(pref_dir_vec[1]))
+                        if self.s_grid[j - round(pref_dir_vec[1])][i+ round(pref_dir_vec[0])] == 0:
+                            print(pref_dir_vec)
+                            print(pref_dots)
+                            print(pref_dirs)
+                            print(self.s_grid[j - round(pref_dir_vec[1])][i+ round(pref_dir_vec[0])])
 
-                    for k in range(len(moves_ordered)):
-
-                        r_pref_move = np.round(self.a_dir[np.where(moves == moves_ordered[-1-k])[0][0]])
-                        ##print(self.p_grid[j+int(r_pref_move[1])][i+int(r_pref_move[0])])
-                        if self.p_grid[j+int(r_pref_move[1])][i+int(r_pref_move[0])] == 0:
-                            #print(r_pref_move)
-                            ##print(self.p_grid[j+int(r_pref_move[1])][i+int(r_pref_move[0])])
+                            self.s_grid[j - round(pref_dir_vec[1])][i+ round(pref_dir_vec[0])] = 3
+                            #self.s_grid[j][i] = 0
                             break
                         else:
-                                
-                            
-                            if k == len(moves_ordered) - 1:
-                                r_pref_move = [0,0]
-                                break
-                            continue
-
-                    
-
-                    self.s_grid[j+int(r_pref_move[1])][i+int(r_pref_move[0])] = 3
+                            print("NO CASE FOUND")
+                            print(self.s_grid[j - round(pref_dir_vec[1])][i+ round(pref_dir_vec[0])])
+                            if k == len(pref_dots) - 1:
+                                self.s_grid[j][i] = 3
                 else:
                     pass
 

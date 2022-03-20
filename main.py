@@ -50,7 +50,7 @@ map = []
 
 map = pd.read_csv('map.csv', delimiter=',', dtype=np.uint64).values
 print(map)
-m_grid = Grid(size, int(np.min([w_HEIGHT/map.shape[0], w_WIDTH/map.shape[1]])))
+m_grid = Grid(size, int(np .min([w_HEIGHT/map.shape[0], w_WIDTH/map.shape[1]])))
 #print(map.shape)
 
 for y in range(map.shape[0]):
@@ -101,11 +101,11 @@ while True:
     
     m_grid.draw_grid()
 
-    if scene == 1:
+    if scene == 1: 
         screen.blit(m_grid.surface, (0,0))
     elif scene == 0:
         screen.blit(start.surface, (0,0))
     pygame.display.flip()
     print("FRAME ", frame)
-    frame += 1
+    frame += 1 
 
