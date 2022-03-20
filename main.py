@@ -2,6 +2,7 @@ import sys,time
 import pygame
 import numpy as np
 from grid import *
+import pandas as pd
 pygame.init()
 clock = pygame.time.Clock()
 
@@ -37,7 +38,7 @@ screen = pygame.display.set_mode(size)
 
 p_size = 100
 
-m_grid = Grid(size, p_size)
+
 start = Start(size)
 mouse_b = 0
 anim =False
@@ -47,24 +48,16 @@ scene = 0
 
 map = []
 
-f = open("shapes.txt", "r")
-data = f.readlines()
-for line in data:
-
-    ar = line.split(',')
-    ar[-1] = ar[-1][0]
-    arr = np.array(ar, int)
-    map.append(arr)
-f.close()
-map = np.vstack(map)
-
+map = pd.read_csv('map.csv', delimiter=',', dtype=np.uint64).values
+print(map)
+m_grid = Grid(size, int(np.min([w_HEIGHT/map.shape[0], w_WIDTH/map.shape[1]])))
 #print(map.shape)
 
 for y in range(map.shape[0]):
     for x in range(map.shape[1]):
         m_grid.set_pixel(x, y, map[y, x])
 
-
+frame = 0
 while True:
     
     clock.tick(fps)
@@ -100,6 +93,7 @@ while True:
             if clicked == "start":
                 scene = 1
     if anim:
+
         fps = 1
 
         m_grid.update()
@@ -112,5 +106,6 @@ while True:
     elif scene == 0:
         screen.blit(start.surface, (0,0))
     pygame.display.flip()
-    
+    print("FRAME ", frame)
+    frame += 1
 
